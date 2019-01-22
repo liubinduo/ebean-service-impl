@@ -6,7 +6,7 @@
 
   <groupId>com.v1ok</groupId>
   <artifactId>ebean-service-impl</artifactId>
-  <version>0.1.0</version>
+  <version>0.1.1</version>
   <name>ebean-service-impl</name>
   <description>ebean service</description>
   <url>http://www.v1ok.com</url>
@@ -214,5 +214,28 @@
       </plugin>
     </plugins>
   </build>
+
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/liubinduo/ebean-service-impl</url>
+    <connection>https://github.com/liubinduo/ebean-service-impl.git</connection>
+    <developerConnection>http://www.v1ok.com</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>liubinduo</name>
+      <email>liubinduo@v1ok.com</email>
+      <url>http://www.v1ok.com</url>
+    </developer>
+  </developers>
 
 </project>

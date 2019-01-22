@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.forceclouds.AutoConfig
+com.v1ok.AutoConfig
