@@ -1,17 +1,13 @@
 package com.v1ok.db.model;
 
-import com.v1ok.db.service.ICreateBy;
-import com.v1ok.db.service.IEntityModel;
-import com.v1ok.db.service.IExtends;
-import com.v1ok.db.service.ISoftDelete;
-import com.v1ok.db.service.IUpdateBy;
-import com.v1ok.db.service.IVersion;
+
 import io.ebean.annotation.DbJsonB;
 import io.ebean.annotation.SoftDelete;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import io.ebean.annotation.WhoCreated;
 import io.ebean.annotation.WhoModified;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 import javax.persistence.Basic;
@@ -28,11 +24,12 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * Created by liubinduo on 2017/6/28.
  */
 @MappedSuperclass
-public abstract class BaseEntity implements IEntityModel, ICreateBy, IUpdateBy, ISoftDelete,
-    IVersion, IExtends {
+public abstract class BaseEntity<ID extends Serializable> implements IEntityModel<ID>,
+    ICreateByModel, IUpdateByModel, ISoftDeleteModel,
+    IVersionModel, IExtendsModel {
 
 
-  protected Long pid;
+  protected ID pid;
   protected String name;
   protected Long createBy;
   protected Long updateBy;
@@ -55,12 +52,12 @@ public abstract class BaseEntity implements IEntityModel, ICreateBy, IUpdateBy, 
   @GeneratedValue(generator = "uuid")
   @Column(name = "pid")
   @Override
-  public Long getPid() {
+  public ID getPid() {
     return pid;
   }
 
   @Override
-  public void setPid(Long id) {
+  public void setPid(ID id) {
     this.pid = id;
   }
 

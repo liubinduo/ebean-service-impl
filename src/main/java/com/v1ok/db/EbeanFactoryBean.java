@@ -16,8 +16,7 @@ public class EbeanFactoryBean implements FactoryBean<EbeanServer> {
 
   @Override
   public EbeanServer getObject() throws Exception {
-    EbeanServer ebeanServer = EbeanServerFactory.create(config);
-    return ebeanServer;
+    return EbeanServerFactory.create(config);
   }
 
   @Override
