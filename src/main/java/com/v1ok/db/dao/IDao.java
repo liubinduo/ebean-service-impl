@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 
-public interface IDao<T extends IEntityModel<ID>, ID extends Serializable> {
+public interface IDao<T extends IEntityModel, ID extends Serializable> {
 
   boolean exists(ID id);
 

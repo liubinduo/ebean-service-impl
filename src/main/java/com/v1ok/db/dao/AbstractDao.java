@@ -34,7 +34,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 @Slf4j
-public abstract class AbstractDao<T extends IEntityModel<ID>, ID extends Serializable> implements
+public abstract class AbstractDao<T extends IEntityModel, ID extends Serializable> implements
     IDao<T, ID> {
 
   private Class<T> entityClass;

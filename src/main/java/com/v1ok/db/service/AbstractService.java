@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
  * Created by liubinduo on 2017/6/28.
  */
 @Slf4j
-public abstract class AbstractService<T extends IEntityModel<ID>, ID extends Serializable>
+public abstract class AbstractService<T extends IEntityModel, ID extends Serializable>
     implements IService<T, ID> {
 
 

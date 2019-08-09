@@ -14,32 +14,54 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 /**
  * Created by liubinduo on 2017/6/28.
  */
 @MappedSuperclass
-public abstract class BaseEntity<ID extends Serializable> implements IEntityModel<ID>,
+@Data
+@EqualsAndHashCode
+public abstract class BaseEntity implements IEntityModel,
     ICreateByModel, IUpdateByModel, ISoftDeleteModel,
     IVersionModel, IExtendsModel {
 
-
-  protected ID pid;
-  protected String name;
+  @Basic
+  @Column(name = "create_by", updatable = false)
+  @WhoCreated
   protected Long createBy;
+
+  @Basic
+  @Column(name = "update_by")
+  @WhoModified
   protected Long updateBy;
+
+  @Basic
+  @Column(name = "create_time", updatable = false)
+  @WhenCreated
   protected Date createTime;
+
+  @Basic
+  @Column(name = "update_time")
+  @WhenModified
   protected Date updateTime;
+
+  @Basic
+  @Column(name = "deleted")
   @SoftDelete
   protected Boolean deleted;
 
+  @Basic
+  @Column(name = "version")
+  @Version
   protected Integer version;
 
+  @Column(name = "ext")
   @DbJsonB(length = 1000)
   protected Map<String, Object> ext;
 
@@ -47,128 +69,4 @@ public abstract class BaseEntity<ID extends Serializable> implements IEntityMode
     this.deleted = false;
   }
 
-
-  @Id
-  @GeneratedValue(generator = "uuid")
-  @Column(name = "pid")
-  @Override
-  public ID getPid() {
-    return pid;
-  }
-
-  @Override
-  public void setPid(ID id) {
-    this.pid = id;
-  }
-
-
-  @Basic
-  @Column(name = "name")
-  @Override
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
-  @Basic
-  @Column(name = "create_by", updatable = false)
-  @WhoCreated
-  public Long getCreateBy() {
-    return createBy;
-  }
-
-  @Override
-  public void setCreateBy(Long createBy) {
-    this.createBy = createBy;
-  }
-
-  @Override
-  @Basic
-  @Column(name = "update_by")
-  @WhoModified
-  public Long getUpdateBy() {
-    return updateBy;
-  }
-
-  @Override
-  public void setUpdateBy(Long updateBy) {
-    this.updateBy = updateBy;
-  }
-
-  @Override
-  @Basic
-  @Column(name = "create_time", updatable = false)
-  @WhenCreated
-  public Date getCreateTime() {
-    return createTime;
-  }
-
-  @Override
-  public void setCreateTime(Date createTime) {
-    this.createTime = createTime;
-  }
-
-  @Override
-  @Basic
-  @Column(name = "update_time")
-  @WhenModified
-  public Date getUpdateTime() {
-    return updateTime;
-  }
-
-  @Override
-  public void setUpdateTime(Date updateTime) {
-    this.updateTime = updateTime;
-  }
-
-  @Override
-  @Basic
-  @Column(name = "deleted")
-  public Boolean isDeleted() {
-    return deleted;
-  }
-
-  @Override
-  public void setDeleted(Boolean deleted) {
-    this.deleted = deleted;
-  }
-
-  @Override
-  @Version
-  @Column(name = "version")
-  public Integer getVersion() {
-    return version;
-  }
-
-  @Override
-  public void setVersion(Integer version) {
-    this.version = version;
-  }
-
-
-  @Override
-  @Column(name = "ext")
-  public Map<String, Object> getExt() {
-    return ext;
-  }
-
-  @Override
-  public void setExt(Map<String, Object> ext) {
-    this.ext = ext;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    return EqualsBuilder.reflectionEquals(this, o);
-  }
-
-  @Override
-  public int hashCode() {
-    return HashCodeBuilder.reflectionHashCode(this, false);
-  }
 }

@@ -1,6 +1,6 @@
 package com.v1ok;
 
-import com.v1ok.db.util.StringUUIDGenerator;
+import com.v1ok.db.util.UUIDGenerator;
 import io.ebean.config.CurrentUserProvider;
 import io.ebean.config.ServerConfig;
 import io.ebean.spring.txn.SpringJdbcTransactionManager;
@@ -21,7 +21,7 @@ public class AutoConfig implements ApplicationContextAware {
 
   @Bean
   public ServerConfig serverConfig(@Autowired(required = false) DataSource dataSource,
-      @Autowired StringUUIDGenerator uuidGenerator,
+      @Autowired UUIDGenerator uuidGenerator,
       @Autowired CurrentUserProvider currentUser) {
     ServerConfig config = new ServerConfig();
 
@@ -42,12 +42,10 @@ public class AutoConfig implements ApplicationContextAware {
     return config;
   }
 
-
   @Bean
-  public StringUUIDGenerator modUUIDGenerator(){
-    return new StringUUIDGenerator();
+  public UUIDGenerator generator() {
+    return new UUIDGenerator();
   }
-
 
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
