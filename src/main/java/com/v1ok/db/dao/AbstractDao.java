@@ -1,7 +1,9 @@
 package com.v1ok.db.dao;
 
 import com.google.common.collect.Lists;
+import com.v1ok.db.model.ICreateByModel;
 import com.v1ok.db.model.IEntityModel;
+import com.v1ok.db.model.ISoftDeleteModel;
 import com.v1ok.db.service.util.ExampleExpression;
 import com.v1ok.db.support.Condition;
 import com.v1ok.db.support.Group;
@@ -54,7 +56,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
     Validate.notNull(id, "The id must be not null !");
 
-    return getThisQuery().setId(id).findCount() > 0;
+    return getQuery().setId(id).findCount() > 0;
   }
 
   @Override
@@ -64,7 +66,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
     DefaultExampleExpression defaultExampleExpression = new DefaultExampleExpression(
         (EntityBean) example, false, LikeType.EQUAL_TO);
-    return getThisQuery().where().add(defaultExampleExpression).findCount() > 0;
+    return getQuery().where().add(defaultExampleExpression).findCount() > 0;
   }
 
   @Override
@@ -73,7 +75,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     Validate.notBlank(propertyName, "The property name must be not blank !");
     Validate.notNull(value, "The property value must be not null !");
 
-    return getThisQuery().where().eq(propertyName, value).findCount() > 0;
+    return getQuery().where().eq(propertyName, value).findCount() > 0;
   }
 
 
@@ -82,7 +84,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
     Validate.notNull(id, "The id entity must be not null !");
 
-    return getThisQuery().setId(id).findOneOrEmpty();
+    return getQuery().setId(id).findOneOrEmpty();
   }
 
   @Override
@@ -91,30 +93,30 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     Validate.notEmpty(propertyName, "The name of property must be not empty !");
     Validate.notNull(value, "The value of property must be not null !");
 
-    return getThisQuery().where().eq(propertyName, value).findOneOrEmpty();
+    return getQuery().where().eq(propertyName, value).findOneOrEmpty();
   }
 
   @Override
   public List<T> findAll() {
-    return getThisQuery().findList();
+    return getQuery().findList();
   }
 
   @Override
   public List<T> findAll(T example) {
     DefaultExampleExpression defaultExampleExpression = new DefaultExampleExpression(
         (EntityBean) example, false, LikeType.EQUAL_TO);
-    return getThisQuery().where().add(defaultExampleExpression).findList();
+    return getQuery().where().add(defaultExampleExpression).findList();
   }
 
   @Override
   public List<T> findAll(String propertyName, Object value) {
-    return getThisQuery().where().eq(propertyName, value).order().desc("createTime").findList();
+    return getQuery().where().eq(propertyName, value).order().desc("createTime").findList();
   }
 
   @SafeVarargs
   @Override
   public final List<T> findAll(ID... id) {
-    return getThisQuery().where().idIn(id).findList();
+    return getQuery().where().idIn(id).findList();
   }
 
   @Override
@@ -123,7 +125,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     Validate.isTrue(pageNo >= 0, "The pageNo must be greater than or equal to zero !");
     Validate.isTrue(pageSize > 0, "The pageSize must be greater than zero !");
 
-    ExpressionList<T> where = getThisQuery().where();
+    ExpressionList<T> where = getQuery().where();
 
     return getPage(pageNo, pageSize, where);
   }
@@ -135,7 +137,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     Validate.isTrue(pageNo >= 0, "The pageNo must be greater than or equal to zero !");
     Validate.isTrue(pageSize > 0, "The pageSize must be greater than zero !");
 
-    ExpressionList<T> expressionList = getThisQuery().where().eq(propertyName, value)
+    ExpressionList<T> expressionList = getQuery().where().eq(propertyName, value)
         .eq("deleted", false);
 
     return getPage(pageNo, pageSize, expressionList);
@@ -148,7 +150,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     Validate.isTrue(pageSize > 0, "The pageSize must be greater than zero !");
     Validate.notNull(example, "The example entity must be not null !");
 
-    final ExpressionList<T> where = getThisQuery().where();
+    final ExpressionList<T> where = getQuery().where();
 
     ExampleExpression.orExpression(where, example);
 
@@ -162,7 +164,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     Validate.isTrue(pageSize > 0, "The pageSize must be greater than zero !");
     Validate.notNull(example, "The example entity must be not null !");
 
-    final ExpressionList<T> where = getThisQuery().where();
+    final ExpressionList<T> where = getQuery().where();
 
     ExampleExpression.andExpression(where, example);
 
@@ -268,11 +270,15 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
   }
 
   @Override
-  public int delete(ID... id) {
+  public int delete(ID... ids) {
 
-    Validate.notNull(id, "The entity must be not null !");
+    Validate.notNull(ids, "The entity must be not null !");
 
-    return server.update(entityClass).set("deleted", true).where().in("pid", id).update();
+    if (ISoftDeleteModel.class.isAssignableFrom(this.entityClass)) {
+      return this.getUpdate().set("deleted", true).where().idIn(ids).update();
+    }
+
+    throw new RuntimeException("The Entity class not support ISoftDeleteModel");
 
   }
 
@@ -291,7 +297,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
     Validate.notNull(propertyValue, "The propertyValue must be not empty !");
 
-    return getThisQuery().where().eq(propertyName, propertyValue).delete();
+    return getQuery().where().eq(propertyName, propertyValue).delete();
   }
 
   @Override
@@ -320,27 +326,43 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     return server.deletePermanent(this.entityClass, id);
   }
 
-  protected Query<T> getThisQuery() {
+  @Override
+  public Query<T> getQuery() {
     return server.find(this.entityClass);
   }
 
-  protected UpdateQuery<T> getUpdate() {
+  @Override
+  public UpdateQuery<T> getUpdate() {
     return server.update(this.entityClass);
   }
 
 
   @Override
   public int delete(String propertyName, Object propertyValue) {
-    throw new UnsupportedOperationException();
+
+    if (ISoftDeleteModel.class.isAssignableFrom(this.entityClass)) {
+      return this.getUpdate().set("deleted", true).where().eq(propertyName, propertyValue).update();
+    }
+
+    throw new RuntimeException("The Entity class not support ISoftDeleteModel");
+
   }
 
-  protected Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where) {
+  @Override
+  public Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where) {
     int count = where.findCount();
 
     if (count > 0) {
 
+      if (ICreateByModel.class.isAssignableFrom(this.entityClass)) {
+        PagedList<T> pagedList = where.order().desc("createTime")
+            .setFirstRow(pageNo * pageSize)
+            .setMaxRows(pageSize)
+            .findPagedList();
+        return convertPage(pageNo, pageSize, count, pagedList);
+      }
+
       PagedList<T> pagedList = where
-          .order().desc("pid")
           .setFirstRow(pageNo * pageSize)
           .setMaxRows(pageSize)
           .findPagedList();
@@ -368,7 +390,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
    */
   private ExpressionList<T> getGroupWhere(String option, List<Group> groups) {
 
-    final ExpressionList<T> where = getThisQuery().where();
+    final ExpressionList<T> where = getQuery().where();
 
     Junction<T> junction;
 
@@ -468,7 +490,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
       if (where == null) {
 
-        where = getThisQuery().where();
+        where = getQuery().where();
       }
 
       switch (StringUtils.lowerCase(condition.getOption())) {

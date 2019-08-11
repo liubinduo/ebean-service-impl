@@ -2,6 +2,9 @@ package com.v1ok.db.dao;
 
 import com.v1ok.db.model.IEntityModel;
 import com.v1ok.db.support.QueryBean;
+import io.ebean.ExpressionList;
+import io.ebean.Query;
+import io.ebean.UpdateQuery;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -64,5 +67,11 @@ public interface IDao<T extends IEntityModel, ID extends Serializable> {
   boolean remove(T entity);
 
   int remove(ID id);
+
+  Query<T> getQuery();
+
+  UpdateQuery<T> getUpdate();
+
+  Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where);
 
 }
