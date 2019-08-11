@@ -7,14 +7,10 @@ import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 import io.ebean.annotation.WhoCreated;
 import io.ebean.annotation.WhoModified;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 import lombok.Data;
@@ -57,9 +53,9 @@ public abstract class BaseEntity implements IEntityModel,
   protected Boolean deleted;
 
   @Basic
-  @Column(name = "version")
+  @Column(name = "revision")
   @Version
-  protected Integer version;
+  protected Integer revision;
 
   @Column(name = "ext")
   @DbJsonB(length = 1000)
