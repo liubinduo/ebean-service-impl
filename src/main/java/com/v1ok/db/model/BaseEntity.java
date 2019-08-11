@@ -23,7 +23,7 @@ import lombok.EqualsAndHashCode;
 @MappedSuperclass
 @Data
 @EqualsAndHashCode
-public abstract class BaseEntity implements IEntityModel,
+public class BaseEntity implements IEntityModel,
     ICreateByModel, IUpdateByModel, ISoftDeleteModel,
     IVersionModel, IExtendsModel {
 
@@ -55,7 +55,7 @@ public abstract class BaseEntity implements IEntityModel,
   @Basic
   @Column(name = "revision")
   @Version
-  protected Integer revision;
+  protected Integer version;
 
   @Column(name = "ext")
   @DbJsonB(length = 1000)
