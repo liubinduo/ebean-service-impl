@@ -6,7 +6,7 @@
 
   <groupId>com.v1ok</groupId>
   <artifactId>ebean-service-impl</artifactId>
-  <version>0.1.7</version>
+  <version>0.1.7.1</version>
   <name>ebean-service-impl</name>
   <description>ebean service</description>
   <url>http://www.v1ok.com</url>
@@ -59,7 +59,7 @@
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.0.RELEASE</version>
+        <version>2.1.5.RELEASE</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
