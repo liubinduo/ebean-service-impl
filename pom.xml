@@ -6,7 +6,7 @@
 
   <groupId>com.v1ok</groupId>
   <artifactId>ebean-service-impl</artifactId>
-  <version>0.1.7.4</version>
+  <version>0.1.7.5</version>
   <name>ebean-service-impl</name>
   <description>ebean service</description>
   <url>http://www.v1ok.com</url>
@@ -20,7 +20,7 @@
     <dependency>
       <groupId>com.v1ok</groupId>
       <artifactId>service-interface</artifactId>
-      <version>0.1.3</version>
+      <version>0.1.4</version>
     </dependency>
     <dependency>
       <groupId>com.v1ok</groupId>

@@ -28,14 +28,14 @@ public class BaseEntity implements IEntityModel,
     IVersionModel, IExtendsModel {
 
   @Basic
-  @Column(name = "created_by", updatable = false)
+  @Column(name = "create_by", updatable = false)
   @WhoCreated
-  protected Long createBy;
+  protected String createBy;
 
   @Basic
   @Column(name = "update_by")
   @WhoModified
-  protected Long updateBy;
+  protected String updateBy;
 
   @Basic
   @Column(name = "create_time", updatable = false)
