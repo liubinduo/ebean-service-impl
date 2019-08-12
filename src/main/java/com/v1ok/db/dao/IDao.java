@@ -2,6 +2,7 @@ package com.v1ok.db.dao;
 
 import com.v1ok.db.model.IEntityModel;
 import com.v1ok.db.support.QueryBean;
+import io.ebean.EbeanServer;
 import io.ebean.ExpressionList;
 import io.ebean.Query;
 import io.ebean.UpdateQuery;
@@ -73,5 +74,7 @@ public interface IDao<T extends IEntityModel, ID extends Serializable> {
   UpdateQuery<T> getUpdate();
 
   Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where);
+
+  EbeanServer getServer();
 
 }

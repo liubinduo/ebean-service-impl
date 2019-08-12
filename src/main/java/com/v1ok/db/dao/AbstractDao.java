@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -275,7 +276,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     Validate.notNull(ids, "The entity must be not null !");
 
     if (ISoftDeleteModel.class.isAssignableFrom(this.entityClass)) {
-      return this.getUpdate().set("deleted", true).where().idIn(ids).update();
+      return this.getServer().deleteAll(this.entityClass, Arrays.asList(ids));
     }
 
     throw new RuntimeException("The Entity class not support ISoftDeleteModel");
@@ -371,6 +372,11 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
     }
     return convertPage(pageNo, pageSize, 0, null);
+  }
+
+  @Override
+  public EbeanServer getServer() {
+    return server;
   }
 
   protected PageImpl<T> convertPage(int pageNo, int pageSize, int totalCount,
