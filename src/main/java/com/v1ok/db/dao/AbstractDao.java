@@ -111,7 +111,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
   @Override
   public List<T> findAll(String propertyName, Object value) {
-    return getQuery().where().eq(propertyName, value).order().desc("createTime").findList();
+    return getQuery().where().eq(propertyName, value).findList();
   }
 
   @SafeVarargs

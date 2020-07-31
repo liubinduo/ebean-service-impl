@@ -6,14 +6,14 @@
 
   <groupId>com.v1ok</groupId>
   <artifactId>ebean-service-impl</artifactId>
-  <version>0.1.7.7</version>
+  <version>0.1.7.123.7</version>
   <name>ebean-service-impl</name>
   <description>ebean service</description>
   <url>http://www.v1ok.com</url>
 
   <properties>
-    <ebean-version>12.3.1</ebean-version>
-    <ebean-maven-plugin-version>12.3.1</ebean-maven-plugin-version>
+    <ebean-version>12.3.7</ebean-version>
+    <ebean-maven-plugin-version>12.3.7</ebean-maven-plugin-version>
   </properties>
 
   <dependencies>
