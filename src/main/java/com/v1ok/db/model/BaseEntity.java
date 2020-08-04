@@ -28,37 +28,37 @@ public class BaseEntity implements IEntityModel,
     IVersionModel, IExtendsModel {
 
   @Basic
-  @Column(name = "create_by", updatable = false)
+  @Column(name = "CREATE_BY", updatable = false)
   @WhoCreated
   protected String createBy;
 
   @Basic
-  @Column(name = "update_by")
+  @Column(name = "UPDATE_BY")
   @WhoModified
   protected String updateBy;
 
   @Basic
-  @Column(name = "create_time", updatable = false)
+  @Column(name = "CREATE_TIME", updatable = false)
   @WhenCreated
   protected Date createTime;
 
   @Basic
-  @Column(name = "update_time")
+  @Column(name = "UPDATE_TIME")
   @WhenModified
   protected Date updateTime;
 
   @Basic
-  @Column(name = "deleted")
+  @Column(name = "DELETED")
   @SoftDelete
   protected Boolean deleted;
 
   @Basic
-  @Column(name = "revision")
+  @Column(name = "REVISION")
   @Version
   protected Integer version;
 
-  @Column(name = "ext")
-  @DbJsonB(length = 1000)
+  @Column(name = "EXT")
+  @DbJsonB(length = 5000)
   protected Map<String, Object> ext;
 
   public BaseEntity() {

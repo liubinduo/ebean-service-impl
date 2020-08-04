@@ -56,7 +56,6 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
   public boolean exists(ID id) {
 
     Validate.notNull(id, "The id must be not null !");
-
     return getQuery().setId(id).findCount() > 0;
   }
 
@@ -138,8 +137,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     Validate.isTrue(pageNo >= 0, "The pageNo must be greater than or equal to zero !");
     Validate.isTrue(pageSize > 0, "The pageSize must be greater than zero !");
 
-    ExpressionList<T> expressionList = getQuery().where().eq(propertyName, value)
-        .eq("deleted", false);
+    ExpressionList<T> expressionList = getQuery().where().eq(propertyName, value);
 
     return getPage(pageNo, pageSize, expressionList);
   }
@@ -356,7 +354,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     if (count > 0) {
 
       if (ICreateByModel.class.isAssignableFrom(this.entityClass)) {
-        PagedList<T> pagedList = where.order().desc("createTime")
+        PagedList<T> pagedList = where
             .setFirstRow(pageNo * pageSize)
             .setMaxRows(pageSize)
             .findPagedList();
