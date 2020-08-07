@@ -18,7 +18,7 @@ public class EbeanFactoryBean implements FactoryBean<Database> {
   }
 
   @Override
-  public Database getObject() throws Exception {
+  public Database getObject() {
     return DatabaseFactory.create(config);
   }
 

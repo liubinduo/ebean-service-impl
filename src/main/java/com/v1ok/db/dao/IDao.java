@@ -3,7 +3,6 @@ package com.v1ok.db.dao;
 import com.v1ok.db.model.IEntityModel;
 import com.v1ok.db.support.QueryBean;
 import io.ebean.Database;
-import io.ebean.EbeanServer;
 import io.ebean.ExpressionList;
 import io.ebean.Query;
 import io.ebean.UpdateQuery;
@@ -12,75 +11,75 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 
-public interface IDao<T extends IEntityModel, ID extends Serializable> {
+public interface IDao<Entity extends IEntityModel, PID extends Serializable> {
 
-  boolean exists(ID id);
+  boolean exists(PID id);
 
-  boolean exists(T example);
+  boolean exists(Entity example);
 
   boolean exists(String propertyName, Object value);
 
-  Optional<T> findOne(ID id);
+  Optional<Entity> findOne(PID id);
 
-  Optional<T> findOne(String propertyName, Object value);
+  Optional<Entity> findOne(String propertyName, Object value);
 
-  List<T> findAll();
+  List<Entity> findAll();
 
-  List<T> findAll(T example);
+  List<Entity> findAll(Entity example);
 
-  List<T> findAll(ID... id);
+  List<Entity> findAll(PID... id);
 
-  List<T> findAll(String propertyName, Object value);
+  List<Entity> findAll(String propertyName, Object value);
 
-  Page<T> pageQuery(int pageNo, int pageSize);
+  Page<Entity> pageQuery(int pageNo, int pageSize);
 
-  Page<T> pageQuery(String propertyName, Object value, int pageNo, int pageSize);
+  Page<Entity> pageQuery(String propertyName, Object value, int pageNo, int pageSize);
 
-  Page<T> pageQueryORExample(T example, int pageNo, int pageSize);
+  Page<Entity> pageQueryORExample(Entity example, int pageNo, int pageSize);
 
-  Page<T> pageQueryANDExample(T example, int pageNo, int pageSize);
+  Page<Entity> pageQueryANDExample(Entity example, int pageNo, int pageSize);
 
-  Page<T> pageSearch(QueryBean queryBean);
+  Page<Entity> pageSearch(QueryBean queryBean);
 
-  List<T> listSearch(QueryBean queryBean);
+  List<Entity> listSearch(QueryBean queryBean);
 
-  T save(T entity);
+  Entity save(Entity entity);
 
-  Iterable<T> save(Iterable<T> iterable);
+  Iterable<Entity> save(Iterable<Entity> iterable);
 
-  List<T> save(List<T> entities);
+  List<Entity> save(List<Entity> entities);
 
-  T update(T entity);
+  Entity update(Entity entity);
 
-  List<T> update(List<T> entities);
+  List<Entity> update(List<Entity> entities);
 
-  T saveOrUpdate(T entity);
+  Entity saveOrUpdate(Entity entity);
 
-  Iterable<T> saveOrUpdate(Iterable<T> iterable);
+  Iterable<Entity> saveOrUpdate(Iterable<Entity> iterable);
 
-  List<T> saveOrUpdate(List<T> entities);
+  List<Entity> saveOrUpdate(List<Entity> entities);
 
-  boolean delete(T entity);
+  boolean delete(Entity entity);
 
-  int delete(ID... id);
+  int delete(PID... id);
 
-  int delete(List<T> entities);
+  int delete(List<Entity> entities);
 
   int delete(String propertyName, Object propertyValue);
 
   int remove(String propertyName, Object propertyValue);
 
-  int remove(List<T> entities);
+  int remove(List<Entity> entities);
 
-  boolean remove(T entity);
+  boolean remove(Entity entity);
 
-  int remove(ID id);
+  int remove(PID id);
 
-  Query<T> getQuery();
+  Query<Entity> getQuery();
 
-  UpdateQuery<T> getUpdate();
+  UpdateQuery<Entity> getUpdate();
 
-  Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where);
+  Page<Entity> getPage(int pageNo, int pageSize, ExpressionList<Entity> where);
 
   Database getServer();
 

@@ -13,10 +13,8 @@ import io.ebean.Database;
 import io.ebean.ExpressionList;
 import io.ebean.Junction;
 import io.ebean.LikeType;
-import io.ebean.MergeOptionsBuilder;
 import io.ebean.PagedList;
 import io.ebean.Query;
-import io.ebean.Transaction;
 import io.ebean.UpdateQuery;
 import io.ebean.bean.EntityBean;
 import io.ebeaninternal.server.expression.DefaultExampleExpression;
@@ -42,7 +40,7 @@ import org.springframework.data.domain.PageRequest;
 public abstract class AbstractDao<T extends IEntityModel, ID extends Serializable> implements
     IDao<T, ID> {
 
-  private Class<T> entityClass;
+  protected Class<T> entityClass;
 
   @Autowired
   protected Database server;
@@ -118,7 +116,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
   @SafeVarargs
   @Override
   public final List<T> findAll(ID... id) {
-    return getQuery().where().idIn(id).findList();
+    return getQuery().where().idIn((Object[]) id).findList();
   }
 
   @Override
@@ -285,9 +283,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
     Validate.notNull(iterable, "The iterable must be not null !");
 
-    iterable.forEach(entity -> {
-      server.merge(entity);
-    });
+    iterable.forEach(entity -> server.merge(entity));
 
     return iterable;
   }
