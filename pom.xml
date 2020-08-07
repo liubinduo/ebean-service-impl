@@ -128,17 +128,29 @@
     </dependencies>
   </dependencyManagement>
 
+<!--  <distributionManagement>-->
+<!--    <repository>-->
+<!--      <id>sonatype-nexus-staging</id>-->
+<!--      <name>repository</name>-->
+<!--      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
+<!--      <uniqueVersion>true</uniqueVersion>-->
+<!--    </repository>-->
+<!--    <snapshotRepository>-->
+<!--      <id>sonatype-nexus-snapshots</id>-->
+<!--      <name>snapshot</name>-->
+<!--      <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--    </snapshotRepository>-->
+<!--  </distributionManagement>-->
   <distributionManagement>
     <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>repository</name>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-      <uniqueVersion>true</uniqueVersion>
+      <id>digitalsurge</id>
+      <name>releases</name>
+      <url>${releases.url}</url>
     </repository>
     <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <name>snapshot</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <id>digitalsurge</id>
+      <name>snapshots</name>
+      <url>${snapshot.url}</url>
     </snapshotRepository>
   </distributionManagement>
 
