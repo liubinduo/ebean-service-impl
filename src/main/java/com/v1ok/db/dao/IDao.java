@@ -2,6 +2,7 @@ package com.v1ok.db.dao;
 
 import com.v1ok.db.model.IEntityModel;
 import com.v1ok.db.support.QueryBean;
+import io.ebean.Database;
 import io.ebean.EbeanServer;
 import io.ebean.ExpressionList;
 import io.ebean.Query;
@@ -53,6 +54,12 @@ public interface IDao<T extends IEntityModel, ID extends Serializable> {
 
   List<T> update(List<T> entities);
 
+  T saveOrUpdate(T entity);
+
+  Iterable<T> saveOrUpdate(Iterable<T> iterable);
+
+  List<T> saveOrUpdate(List<T> entities);
+
   boolean delete(T entity);
 
   int delete(ID... id);
@@ -75,6 +82,6 @@ public interface IDao<T extends IEntityModel, ID extends Serializable> {
 
   Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where);
 
-  EbeanServer getServer();
+  Database getServer();
 
 }

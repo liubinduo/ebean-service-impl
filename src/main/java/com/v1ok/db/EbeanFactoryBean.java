@@ -1,27 +1,30 @@
 package com.v1ok.db;
 
-import io.ebean.EbeanServer;
-import io.ebean.EbeanServerFactory;
-import io.ebean.config.ServerConfig;
+import io.ebean.Database;
+import io.ebean.DatabaseFactory;
+import io.ebean.config.DatabaseConfig;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EbeanFactoryBean implements FactoryBean<EbeanServer> {
+public class EbeanFactoryBean implements FactoryBean<Database> {
 
 
-  @Autowired
-  ServerConfig config;
+  final
+  DatabaseConfig config;
+
+  public EbeanFactoryBean(DatabaseConfig config) {
+    this.config = config;
+  }
 
   @Override
-  public EbeanServer getObject() throws Exception {
-    return EbeanServerFactory.create(config);
+  public Database getObject() throws Exception {
+    return DatabaseFactory.create(config);
   }
 
   @Override
   public Class<?> getObjectType() {
-    return EbeanServer.class;
+    return Database.class;
   }
 
   @Override

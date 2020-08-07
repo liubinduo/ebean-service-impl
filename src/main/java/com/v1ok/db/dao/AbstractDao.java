@@ -9,12 +9,14 @@ import com.v1ok.db.support.Condition;
 import com.v1ok.db.support.Group;
 import com.v1ok.db.support.QueryBean;
 import com.v1ok.db.util.EbeanOptions;
-import io.ebean.EbeanServer;
+import io.ebean.Database;
 import io.ebean.ExpressionList;
 import io.ebean.Junction;
 import io.ebean.LikeType;
+import io.ebean.MergeOptionsBuilder;
 import io.ebean.PagedList;
 import io.ebean.Query;
+import io.ebean.Transaction;
 import io.ebean.UpdateQuery;
 import io.ebean.bean.EntityBean;
 import io.ebeaninternal.server.expression.DefaultExampleExpression;
@@ -43,7 +45,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
   private Class<T> entityClass;
 
   @Autowired
-  protected EbeanServer server;
+  protected Database server;
 
 
   public AbstractDao() {
@@ -261,6 +263,36 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
   }
 
   @Override
+  public T saveOrUpdate(T entity) {
+    server.merge(entity);
+    return entity;
+  }
+
+  @Override
+  public List<T> saveOrUpdate(List<T> entities) {
+
+    Validate.notEmpty(entities, "The entityes must be not empty!");
+
+    for (T entity : entities) {
+      server.merge(entity);
+    }
+
+    return entities;
+  }
+
+  @Override
+  public Iterable<T> saveOrUpdate(Iterable<T> iterable) {
+
+    Validate.notNull(iterable, "The iterable must be not null !");
+
+    iterable.forEach(entity -> {
+      server.merge(entity);
+    });
+
+    return iterable;
+  }
+
+  @Override
   public boolean delete(T entity) {
 
     Validate.notNull(entity, "The entity must be not null !");
@@ -373,7 +405,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
   }
 
   @Override
-  public EbeanServer getServer() {
+  public Database getServer() {
     return server;
   }
 

@@ -8,8 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public class UUIDGenerator implements IdGenerator {
 
-  @Autowired(required = false)
+  final
   IDGenerate generate;
+
+  public UUIDGenerator(IDGenerate generate) {
+    this.generate = generate;
+  }
 
   @Override
   public Object nextValue() {
