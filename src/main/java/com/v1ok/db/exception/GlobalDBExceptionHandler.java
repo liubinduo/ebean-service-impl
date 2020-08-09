@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 public class GlobalDBExceptionHandler {
 
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseStatus(HttpStatus.OK)
   @ExceptionHandler(OptimisticLockException.class)
   public IRestResponse<?> optimisticLockExceptionHandle(OptimisticLockException exception) {
     log.error("数据库报错", exception);
     return RestResponse.builder().error().message("数据可能已经被其它人修改，请重新获取最新数据后重试。");
   }
 
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseStatus(HttpStatus.OK)
   @ExceptionHandler(DuplicateKeyException.class)
   public IRestResponse<?> duplicateKeyExceptionHandle(DuplicateKeyException exception) {
     log.error("数据库报错", exception);

@@ -195,6 +195,10 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
     ExpressionList<T> where = getGroupWhere(queryBean.getOption(), groups);
 
+    if ( where == null){
+      where = getQuery().where();
+    }
+
     if (StringUtils.isNotEmpty(queryBean.getOrderBy())) {
 
       if (queryBean.isDesc()) {
@@ -377,6 +381,11 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
   @Override
   public Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where) {
+
+    if (where == null) {
+      where = getQuery().where();
+    }
+
     int count = where.findCount();
 
     if (count > 0) {
@@ -421,6 +430,12 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
    * @return ExpressionList<T>
    */
   private ExpressionList<T> getGroupWhere(String option, List<Group> groups) {
+
+    Validate.notNull(groups, "The group must be not null");
+
+    if (CollectionUtils.isNotEmpty(groups) && groups.size() == 1) {
+      return getConditionWhere(groups.get(0).getConditions());
+    }
 
     final ExpressionList<T> where = getQuery().where();
 
