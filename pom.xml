@@ -33,7 +33,7 @@
     <dependency>
       <groupId>com.v1ok</groupId>
       <artifactId>spring-boot-commons</artifactId>
-      <version>232.1.5</version>
+      <version>250.1.7</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -61,7 +61,7 @@
     <dependency>
       <groupId>io.ebean</groupId>
       <artifactId>ebean-spring-txn</artifactId>
-      <version>12.2.1</version>
+      <version>12.6.4</version>
     </dependency>
     <dependency>
       <groupId>com.v1ok</groupId>
