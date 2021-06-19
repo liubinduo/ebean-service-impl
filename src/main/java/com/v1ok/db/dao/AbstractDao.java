@@ -170,6 +170,14 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     return getPage(pageNo, pageSize, where);
   }
 
+  @Override
+  public Page<T> pageQuery(Query<T> query, int pageNo, int pageSize) {
+
+    ExpressionList<T> where = query.where();
+
+    return getPage(pageNo, pageSize, where);
+  }
+
   /**
    * 高级分页查询
    *
@@ -195,7 +203,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
     ExpressionList<T> where = getGroupWhere(queryBean.getOption(), groups);
 
-    if ( where == null){
+    if (where == null) {
       where = getQuery().where();
     }
 
@@ -379,7 +387,11 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
   }
 
+  /**
+   * @deprecated: to see {@link #pageQuery(Query, int, int)} . ;
+   */
   @Override
+  @Deprecated
   public Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where) {
 
     if (where == null) {

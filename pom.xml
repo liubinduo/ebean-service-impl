@@ -6,7 +6,7 @@
 
   <groupId>com.v1ok</groupId>
   <artifactId>ebean-service-impl</artifactId>
-  <version>1290.0.1.9</version>
+  <version>1290.0.1.10</version>
   <name>ebean-service-impl</name>
   <description>ebean service</description>
   <url>http://www.v1ok.com</url>
@@ -32,9 +32,8 @@
     </dependency>
     <dependency>
       <groupId>com.v1ok</groupId>
-      <artifactId>spring-boot-commons</artifactId>
-      <version>250.1.7</version>
-      <optional>true</optional>
+      <artifactId>spring-boot-auth</artifactId>
+      <version>251.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -63,11 +62,6 @@
       <artifactId>ebean-spring-txn</artifactId>
       <version>12.6.4</version>
     </dependency>
-    <dependency>
-      <groupId>com.v1ok</groupId>
-      <artifactId>uuid</artifactId>
-      <version>0.1.6</version>
-    </dependency>
   </dependencies>
 
   <dependencyManagement>
@@ -76,7 +70,7 @@
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.0</version>
+        <version>2.5.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -88,7 +82,7 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>18.0</version>
+        <version>30.1.1-jre</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -118,7 +112,7 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.9.4</version>
+        <version>2.12.3</version>
       </dependency>
       <dependency>
         <groupId>org.postgresql</groupId>
@@ -141,18 +135,6 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
-<!--  <distributionManagement>-->
-<!--    <repository>-->
-<!--      <id>digitalsurge</id>-->
-<!--      <name>releases</name>-->
-<!--      <url>${releases.url}</url>-->
-<!--    </repository>-->
-<!--    <snapshotRepository>-->
-<!--      <id>digitalsurge</id>-->
-<!--      <name>snapshots</name>-->
-<!--      <url>${snapshot.url}</url>-->
-<!--    </snapshotRepository>-->
-<!--  </distributionManagement>-->
 
   <build>
     <plugins>
@@ -245,6 +227,18 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <!--Nexus Staging Maven插件是将组件部署到OSSRH并将其发布到Central Repository的推荐方法-->
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.8</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>sonatype-nexus-staging</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
       </plugin>
     </plugins>
   </build>

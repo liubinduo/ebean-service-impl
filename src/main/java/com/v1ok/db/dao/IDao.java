@@ -39,6 +39,8 @@ public interface IDao<Entity extends IEntityModel, PID extends Serializable> {
 
   Page<Entity> pageQueryANDExample(Entity example, int pageNo, int pageSize);
 
+  Page<Entity> pageQuery(Query<Entity> query, int pageNo, int pageSize);
+
   Page<Entity> pageSearch(QueryBean queryBean);
 
   List<Entity> listSearch(QueryBean queryBean);
