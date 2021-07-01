@@ -6,7 +6,7 @@
 
   <groupId>com.v1ok</groupId>
   <artifactId>ebean-service-impl</artifactId>
-  <version>1290.0.1.11</version>
+  <version>1290.0.1.13</version>
   <name>ebean-service-impl</name>
   <description>ebean service</description>
   <url>http://www.v1ok.com</url>
@@ -33,7 +33,7 @@
     <dependency>
       <groupId>com.v1ok</groupId>
       <artifactId>spring-boot-auth</artifactId>
-      <version>251.0.1</version>
+      <version>251.0.7</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
