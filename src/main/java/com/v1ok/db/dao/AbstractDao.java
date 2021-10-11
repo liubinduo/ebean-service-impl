@@ -17,7 +17,6 @@ import io.ebean.PagedList;
 import io.ebean.Query;
 import io.ebean.UpdateQuery;
 import io.ebean.bean.EntityBean;
-import io.ebeaninternal.server.expression.DefaultExampleExpression;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -63,10 +62,9 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
   public boolean exists(T example) {
 
     Validate.notNull(example, "The example entity must be not null !");
-
-    DefaultExampleExpression defaultExampleExpression = new DefaultExampleExpression(
-        (EntityBean) example, false, LikeType.EQUAL_TO);
-    return getQuery().where().add(defaultExampleExpression).findCount() > 0;
+    Query<T> query = getQuery();
+    return query.where().add(query.getExpressionFactory()
+        .exampleLike(example, false, LikeType.EQUAL_TO)).findCount() > 0;
   }
 
   @Override
@@ -103,9 +101,10 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
   @Override
   public List<T> findAll(T example) {
-    DefaultExampleExpression defaultExampleExpression = new DefaultExampleExpression(
-        (EntityBean) example, false, LikeType.EQUAL_TO);
-    return getQuery().where().add(defaultExampleExpression).findList();
+    Query<T> query = getQuery();
+    return query.where()
+        .add(query.getExpressionFactory().exampleLike(example, false, LikeType.EQUAL_TO))
+        .findList();
   }
 
   @Override
