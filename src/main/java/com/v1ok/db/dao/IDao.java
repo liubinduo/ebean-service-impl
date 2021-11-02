@@ -77,12 +77,6 @@ public interface IDao<Entity extends IEntityModel, PID extends Serializable> {
 
   int remove(PID id);
 
-  Query<Entity> getQuery();
-
-  UpdateQuery<Entity> getUpdate();
-
   Page<Entity> getPage(int pageNo, int pageSize, ExpressionList<Entity> where);
-
-  Database getServer();
 
 }

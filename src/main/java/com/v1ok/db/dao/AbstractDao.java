@@ -364,13 +364,11 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     return server.deletePermanent(this.entityClass, id);
   }
 
-  @Override
-  public Query<T> getQuery() {
+  protected Query<T> getQuery() {
     return server.find(this.entityClass);
   }
 
-  @Override
-  public UpdateQuery<T> getUpdate() {
+  protected UpdateQuery<T> getUpdate() {
     return server.update(this.entityClass);
   }
 
@@ -386,11 +384,7 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
 
   }
 
-  /**
-   * @deprecated: to see {@link #pageQuery(Query, int, int)} . ;
-   */
   @Override
-  @Deprecated
   public Page<T> getPage(int pageNo, int pageSize, ExpressionList<T> where) {
 
     if (where == null) {
@@ -420,8 +414,8 @@ public abstract class AbstractDao<T extends IEntityModel, ID extends Serializabl
     return convertPage(pageNo, pageSize, 0, null);
   }
 
-  @Override
-  public Database getServer() {
+
+  protected Database getServer() {
     return server;
   }
 
